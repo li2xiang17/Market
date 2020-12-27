@@ -1,4 +1,4 @@
-package com.example.market;
+package com.example.market.view;
 
 import android.os.Bundle;
 import android.widget.FrameLayout;
@@ -8,6 +8,7 @@ import android.widget.RadioGroup;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.market.R;
 import com.example.market.fragment.ClassificationFragment;
 import com.example.market.fragment.HomeFragment;
 import com.example.market.fragment.MineFragment;
