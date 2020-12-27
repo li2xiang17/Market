@@ -2,6 +2,8 @@ package com.example.market.fragment;
 
 import android.graphics.Color;
 import android.view.View;
+import android.widget.GridLayout;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,10 +11,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.alibaba.android.vlayout.DelegateAdapter;
 import com.alibaba.android.vlayout.VirtualLayoutManager;
 import com.alibaba.android.vlayout.layout.ColumnLayoutHelper;
+import com.alibaba.android.vlayout.layout.GridLayoutHelper;
 import com.alibaba.android.vlayout.layout.LinearLayoutHelper;
 import com.example.market.R;
+import com.example.market.adapter.BrandAdapter;
 import com.example.market.adapter.FirstAdapter;
+import com.example.market.adapter.NewGoodsAdapter;
 import com.example.market.adapter.SecondAdapter;
+import com.example.market.adapter.TextAdapter;
+import com.example.market.adapter.TextsAdapter;
 import com.example.market.adapter.ThirdAdapter;
 import com.example.market.bean.HomeBean;
 import com.example.market.contract.HomeContract;
@@ -32,6 +39,12 @@ public class HomeFragment extends BaseFragment<HomePresenterImp> implements Home
     private ThirdAdapter thirdAdapter;
     private FirstAdapter firstAdapter;
     private DelegateAdapter delegateAdapter;
+    private TextAdapter textAdapter;
+    private ArrayList<HomeBean.DataBean.BrandListBean> brandListBeans;
+    private BrandAdapter brandAdapter;
+    private TextsAdapter textsAdapter;
+    private ArrayList<HomeBean.DataBean.NewGoodsListBean> newGoodsListBeans;
+    private NewGoodsAdapter newGoodsAdapter;
 
     @Override
     protected void initData() {
@@ -50,11 +63,52 @@ public class HomeFragment extends BaseFragment<HomePresenterImp> implements Home
         firstlayout();
         secondlayout();
         thirdlayout();
-        delegateAdapter = new DelegateAdapter(layoutManager, true);
+        textlinerlayout();
+        brandlayout();
+        textslinerlayout();
+        newGoodslayout();
+        hotGoodslayout();
+        delegateAdapter = new DelegateAdapter(layoutManager, false);
         delegateAdapter.addAdapter(firstAdapter);
         delegateAdapter.addAdapter(secondAdapter);
         delegateAdapter.addAdapter(thirdAdapter);
+        delegateAdapter.addAdapter(textAdapter);
+        delegateAdapter.addAdapter(brandAdapter);
+        delegateAdapter.addAdapter(textsAdapter);
+        delegateAdapter.addAdapter(newGoodsAdapter);
         mRecycler.setAdapter(delegateAdapter);
+    }
+
+    private void hotGoodslayout() {
+        LinearLayoutHelper linearLayoutHelper = new LinearLayoutHelper();
+            
+    }
+
+    private void newGoodslayout() {
+        GridLayoutHelper gridLayoutHelper = new GridLayoutHelper(2);
+        gridLayoutHelper.setItemCount(4);
+        newGoodsListBeans = new ArrayList<>();
+        newGoodsAdapter = new NewGoodsAdapter(getActivity(),newGoodsListBeans,gridLayoutHelper);
+    }
+
+    private void textslinerlayout() {
+        LinearLayoutHelper linearLayoutHelper = new LinearLayoutHelper();
+        linearLayoutHelper.setItemCount(1);
+        textsAdapter = new TextsAdapter(getActivity(),linearLayoutHelper);
+    }
+
+    private void brandlayout() {
+        GridLayoutHelper gridLayoutHelper = new GridLayoutHelper(2);
+        gridLayoutHelper.setItemCount(4);
+        brandListBeans = new ArrayList<>();
+        brandAdapter = new BrandAdapter(getActivity(),brandListBeans,gridLayoutHelper);
+    }
+
+
+    private void textlinerlayout() {
+        LinearLayoutHelper linearLayoutHelper = new LinearLayoutHelper();
+        linearLayoutHelper.setItemCount(1);
+        textAdapter = new TextAdapter(getActivity(),linearLayoutHelper);
     }
 
     private void thirdlayout() {
@@ -121,9 +175,18 @@ public class HomeFragment extends BaseFragment<HomePresenterImp> implements Home
         channelBeans.addAll(channel);
         thirdAdapter.notifyDataSetChanged();
 
+        List<HomeBean.DataBean.BrandListBean> brandList = data.getBrandList();
+        brandListBeans.addAll(brandList);
+        brandAdapter.notifyDataSetChanged();
+
+        List<HomeBean.DataBean.NewGoodsListBean> newGoodsList = data.getNewGoodsList();
+        newGoodsListBeans.addAll(newGoodsList);
+        newGoodsAdapter.notifyDataSetChanged();
+
         delegateAdapter.notifyDataSetChanged();
 
     }
+
 
     @Override
     public void onHomeFail(String error) {
