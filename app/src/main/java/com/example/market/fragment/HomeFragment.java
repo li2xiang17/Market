@@ -13,13 +13,18 @@ import com.alibaba.android.vlayout.VirtualLayoutManager;
 import com.alibaba.android.vlayout.layout.ColumnLayoutHelper;
 import com.alibaba.android.vlayout.layout.GridLayoutHelper;
 import com.alibaba.android.vlayout.layout.LinearLayoutHelper;
+import com.alibaba.android.vlayout.layout.SingleLayoutHelper;
 import com.example.market.R;
 import com.example.market.adapter.BrandAdapter;
 import com.example.market.adapter.FirstAdapter;
+import com.example.market.adapter.HotGoodsAdapter;
 import com.example.market.adapter.NewGoodsAdapter;
 import com.example.market.adapter.SecondAdapter;
+import com.example.market.adapter.SpecialAdapter;
+import com.example.market.adapter.SpecialimgAdapter;
 import com.example.market.adapter.TextAdapter;
 import com.example.market.adapter.TextsAdapter;
+import com.example.market.adapter.TextssAdapter;
 import com.example.market.adapter.ThirdAdapter;
 import com.example.market.bean.HomeBean;
 import com.example.market.contract.HomeContract;
@@ -45,6 +50,12 @@ public class HomeFragment extends BaseFragment<HomePresenterImp> implements Home
     private TextsAdapter textsAdapter;
     private ArrayList<HomeBean.DataBean.NewGoodsListBean> newGoodsListBeans;
     private NewGoodsAdapter newGoodsAdapter;
+    private TextssAdapter textssAdapter;
+    private HotGoodsAdapter hotGoodsAdapter;
+    private ArrayList<HomeBean.DataBean.HotGoodsListBean> hotGoodsListBeans;
+    private SpecialAdapter specialAdapter;
+    private SpecialimgAdapter specialimgAdapter;
+    private ArrayList<HomeBean.DataBean.TopicListBean> toplist;
 
     @Override
     protected void initData() {
@@ -67,7 +78,10 @@ public class HomeFragment extends BaseFragment<HomePresenterImp> implements Home
         brandlayout();
         textslinerlayout();
         newGoodslayout();
+        textssAdapter();
         hotGoodslayout();
+        specialAdapter();
+        specialimgAdapter();
         delegateAdapter = new DelegateAdapter(layoutManager, false);
         delegateAdapter.addAdapter(firstAdapter);
         delegateAdapter.addAdapter(secondAdapter);
@@ -76,12 +90,41 @@ public class HomeFragment extends BaseFragment<HomePresenterImp> implements Home
         delegateAdapter.addAdapter(brandAdapter);
         delegateAdapter.addAdapter(textsAdapter);
         delegateAdapter.addAdapter(newGoodsAdapter);
+        delegateAdapter.addAdapter(textssAdapter);
+        delegateAdapter.addAdapter(hotGoodsAdapter);
+        delegateAdapter.addAdapter(specialAdapter);
+        delegateAdapter.addAdapter(specialimgAdapter);
         mRecycler.setAdapter(delegateAdapter);
+    }
+
+    private void specialimgAdapter() {
+        SingleLayoutHelper singleLayoutHelper = new SingleLayoutHelper();
+        singleLayoutHelper.setBgColor(Color.DKGRAY);
+        singleLayoutHelper.setMargin(0,100,0,100);
+        //公共属性
+        singleLayoutHelper.setItemCount(1);
+        toplist = new ArrayList<>();
+        specialimgAdapter = new SpecialimgAdapter(getActivity(),toplist,singleLayoutHelper);
+
+    }
+
+    private void specialAdapter() {
+        LinearLayoutHelper linearLayoutHelper = new LinearLayoutHelper();
+        linearLayoutHelper.setItemCount(1);
+        specialAdapter = new SpecialAdapter(getActivity(),linearLayoutHelper);
+    }
+
+    private void textssAdapter() {
+        LinearLayoutHelper linearLayoutHelper = new LinearLayoutHelper();
+        linearLayoutHelper.setItemCount(1);
+        textssAdapter = new TextssAdapter(getActivity(),linearLayoutHelper);
     }
 
     private void hotGoodslayout() {
         LinearLayoutHelper linearLayoutHelper = new LinearLayoutHelper();
-            
+        linearLayoutHelper.setItemCount(3);
+        hotGoodsListBeans = new ArrayList<>();
+        hotGoodsAdapter = new HotGoodsAdapter(getActivity(),hotGoodsListBeans,linearLayoutHelper);
     }
 
     private void newGoodslayout() {
@@ -182,6 +225,14 @@ public class HomeFragment extends BaseFragment<HomePresenterImp> implements Home
         List<HomeBean.DataBean.NewGoodsListBean> newGoodsList = data.getNewGoodsList();
         newGoodsListBeans.addAll(newGoodsList);
         newGoodsAdapter.notifyDataSetChanged();
+
+        List<HomeBean.DataBean.HotGoodsListBean> hotGoodsList = data.getHotGoodsList();
+        hotGoodsListBeans.addAll(hotGoodsList);
+        hotGoodsAdapter.notifyDataSetChanged();
+
+        List<HomeBean.DataBean.TopicListBean> topicList = data.getTopicList();
+        toplist.addAll(topicList);
+        specialimgAdapter.notifyDataSetChanged();
 
         delegateAdapter.notifyDataSetChanged();
 
