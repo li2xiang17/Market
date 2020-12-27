@@ -47,7 +47,7 @@ public class NewGoodsAdapter extends DelegateAdapter.Adapter {
         GoodsViewHolder goodsViewHolder = (GoodsViewHolder) holder;
         HomeBean.DataBean.NewGoodsListBean bean = newGoodslist.get(position);
         goodsViewHolder.name.setText(bean.getName());
-        goodsViewHolder.price.setText("$ "+bean.getRetail_price()+"");
+        goodsViewHolder.price.setText("￥ "+bean.getRetail_price()+"");
         Glide.with(context).load(bean.getList_pic_url()).into(goodsViewHolder.img);
     }
 

@@ -16,6 +16,7 @@ import com.alibaba.android.vlayout.layout.LinearLayoutHelper;
 import com.alibaba.android.vlayout.layout.SingleLayoutHelper;
 import com.example.market.R;
 import com.example.market.adapter.BrandAdapter;
+import com.example.market.adapter.CategoryAdapter;
 import com.example.market.adapter.FirstAdapter;
 import com.example.market.adapter.HotGoodsAdapter;
 import com.example.market.adapter.NewGoodsAdapter;
@@ -56,6 +57,8 @@ public class HomeFragment extends BaseFragment<HomePresenterImp> implements Home
     private SpecialAdapter specialAdapter;
     private SpecialimgAdapter specialimgAdapter;
     private ArrayList<HomeBean.DataBean.TopicListBean> toplist;
+    private CategoryAdapter categoryAdapter;
+    private ArrayList<HomeBean.DataBean.CategoryListBean> categoryListBeans;
 
     @Override
     protected void initData() {
@@ -82,6 +85,7 @@ public class HomeFragment extends BaseFragment<HomePresenterImp> implements Home
         hotGoodslayout();
         specialAdapter();
         specialimgAdapter();
+        categoryAdapter();
         delegateAdapter = new DelegateAdapter(layoutManager, false);
         delegateAdapter.addAdapter(firstAdapter);
         delegateAdapter.addAdapter(secondAdapter);
@@ -94,7 +98,15 @@ public class HomeFragment extends BaseFragment<HomePresenterImp> implements Home
         delegateAdapter.addAdapter(hotGoodsAdapter);
         delegateAdapter.addAdapter(specialAdapter);
         delegateAdapter.addAdapter(specialimgAdapter);
+        delegateAdapter.addAdapter(categoryAdapter);
         mRecycler.setAdapter(delegateAdapter);
+    }
+
+    private void categoryAdapter() {
+        LinearLayoutHelper linearLayoutHelper = new LinearLayoutHelper();
+        linearLayoutHelper.setItemCount(7);
+        categoryListBeans = new ArrayList<>();
+        categoryAdapter = new CategoryAdapter(getActivity(),categoryListBeans,linearLayoutHelper);
     }
 
     private void specialimgAdapter() {
@@ -233,6 +245,10 @@ public class HomeFragment extends BaseFragment<HomePresenterImp> implements Home
         List<HomeBean.DataBean.TopicListBean> topicList = data.getTopicList();
         toplist.addAll(topicList);
         specialimgAdapter.notifyDataSetChanged();
+
+        List<HomeBean.DataBean.CategoryListBean> categoryList = data.getCategoryList();
+        categoryListBeans.addAll(categoryList);
+        categoryAdapter.notifyDataSetChanged();
 
         delegateAdapter.notifyDataSetChanged();
 

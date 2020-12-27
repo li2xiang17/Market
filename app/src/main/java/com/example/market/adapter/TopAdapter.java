@@ -41,7 +41,7 @@ public class TopAdapter extends RecyclerView.Adapter {
         HomeBean.DataBean.TopicListBean bean = list.get(position);
         Glide.with(context).load(bean.getItem_pic_url()).into(topsViewHolder.img);
         topsViewHolder.title.setText(bean.getTitle());
-        topsViewHolder.price.setText("$"+bean.getPrice_info()+"元起");
+        topsViewHolder.price.setText("￥"+bean.getPrice_info()+"元起");
         topsViewHolder.subtitle.setText(bean.getSubtitle());
     }
 

@@ -49,7 +49,7 @@ public class HotGoodsAdapter extends DelegateAdapter.Adapter {
         hotViewHolder.brief.setText(bean.getGoods_brief());
         Glide.with(context).load(bean.getList_pic_url()).into(hotViewHolder.img);
         hotViewHolder.name.setText(bean.getName());
-        hotViewHolder.price.setText("$ "+bean.getRetail_price()+"");
+        hotViewHolder.price.setText("￥ "+bean.getRetail_price()+"");
     }
 
     @Override
